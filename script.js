@@ -1,7 +1,3 @@
-selectedCells = [];
-playerSelections = [];
-cpuSelections = [];
-
 function isSelected(cellID)
 {
     for (cell of selectedCells)
@@ -22,9 +18,26 @@ function getCPUCell()
     return cpuCell;
 }
 
+function clear()
+{
+    selectedCells = [];
+    playerSelections = [];
+    cpuSelections = [];
+
+    for (cell of document.getElementsByClassName("cell"))
+        cell.style.backgroundImage = "None";
+}
+
 function gameOver(who)
 {
-    alert(who + " Win")
+    if (who == "none")
+        document.getElementById("winner").innerText = "Draw Match";
+    else
+        document.getElementById("winner").innerText = who + " Won";
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("modal").style.transform = "scale(1)";
+    clear();
+    return true;
 }
 
 function check(array, who)
@@ -49,14 +62,23 @@ function select(playerCell)
     if (isSelected(playerCell))
     {
         playerSelections.push(playerCell);
-        check(playerSelections, "You");
         document.getElementById(playerCell).style.backgroundImage = "url(x.png)";
+        if (check(playerSelections, "You"))
+            return;
 
         if (selectedCells.length == 9)
-            return alert("Draw");
+            return gameOver("none");
 
         let cpuCell = getCPUCell();
         document.getElementById(cpuCell).style.backgroundImage = "url(o.png)";
         check(cpuSelections, "CPU");
     }
 }
+
+function playAgain()
+{
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("modal").style.transform = "scale(0)";
+}
+
+clear()

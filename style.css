@@ -28,6 +28,45 @@ body{
     background-position: center;
 }
 
+#overlay{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: #000E;
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 1;
+}
+#modal{
+    width: 75vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    top: 35vh;
+    left: 12.5vw;
+    background-color: #FFF;
+    border-radius: 10px;
+    transform: scale(0);
+    transition: 0.3s;
+    z-index: 2;
+}
+h1{
+    font-family: sans-serif;
+    font-size: 3rem;
+}
+button{
+    width: 60%;
+    height: 16%;
+    background-color: #A00;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 25px;
+    border: none;
+}
+
 @media screen and (orientation: landscape)
 {
     #board{
@@ -35,4 +74,10 @@ body{
         height: 99vh;
     }
     .cell{min-height: 32%;}
+    #modal{
+        width: 50vw;
+        height: 60vh;
+        top: 20vh;
+        left: 25vw;
+    }
 }
