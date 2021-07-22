@@ -62,7 +62,7 @@ function select(playerCell)
     if (isSelected(playerCell))
     {
         playerSelections.push(playerCell);
-        document.getElementById(playerCell).style.backgroundImage = "url(x.png)";
+        document.getElementById(playerCell).style.backgroundImage = "url(images/x.png)";
         if (check(playerSelections, "You"))
             return;
 
@@ -70,15 +70,16 @@ function select(playerCell)
             return gameOver("none");
 
         let cpuCell = getCPUCell();
-        document.getElementById(cpuCell).style.backgroundImage = "url(o.png)";
+        document.getElementById(cpuCell).style.backgroundImage = "url(images/o.png)";
         check(cpuSelections, "CPU");
     }
 }
 
-function playAgain()
+function play()
 {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("modal").style.transform = "scale(0)";
 }
 
+play()
 clear()
