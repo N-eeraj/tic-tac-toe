@@ -27,16 +27,14 @@ const clear = () => {
 }
 
 const gameOver = who => {
-  setTimeout(() => {
-    if (who == "none")
-      document.getElementById("winner").innerText = "Draw Match"
-    else
-      document.getElementById("winner").innerText = who + " Won"
-    document.getElementById("overlay").style.display = "block"
-    document.getElementById("modal").style.transform = "scale(1)"
-    clear()
-    return true
-  }, 400)
+  if (who == "none")
+    document.getElementById("winner").innerText = "Draw Match"
+  else
+    document.getElementById("winner").innerText = who + " Won"
+  document.getElementById("overlay").style.display = "block"
+  document.getElementById("modal").style.transform = "scale(1)"
+  clear()
+  return true
 }
 
 const check = (array, who) => {
@@ -48,7 +46,7 @@ const check = (array, who) => {
         point++
     }
     if (point == 3)
-      return gameOver(who)
+      return setTimeout(()=> gameOver(who), 100)
   }
 }
 
@@ -59,7 +57,7 @@ const select = playerCell => {
     if (check(playerSelections, "You")) return
 
     if (selectedCells.length == 9)
-      return gameOver("none")
+      return setTimeout(() => gameOver("none"), 100)
 
     let cpuCell = getCPUCell()
     setTimeout(() => {

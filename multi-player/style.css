@@ -1,0 +1,16 @@
+#play {
+  width: 200px;
+  padding: 12px;
+  background-color: var(--primary);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--light);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#qrCode {
+  width: 240px;
+  aspect-ratio: 1;
+  background-color: var(--light);
+}
