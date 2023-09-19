@@ -19,6 +19,25 @@ const generateQR = id => {
   log(url)
   qrCode.src = qrCodeURL
   qrCode.alt = qrCodeURL
+  qrCode.addEventListener('click', async () => {
+    if (navigator.share) {
+      const shareData = {
+        title: 'Tic Tac Toe',
+        text: 'Your friend has invited you to a game of Tic Tac Toe',
+        url
+      }
+      await navigator.share(shareData)
+    }
+    else {
+      const dummy = document.createElement('textarea')
+      document.body.appendChild(dummy)
+      dummy.value = url
+      dummy.select()
+      document.execCommand('copy')
+      document.body.removeChild(dummy)
+      alert('Copied Invitation Link')
+    }
+  })
 }
 
 const sendMessage = message => connection.send(JSON.stringify(message))
@@ -60,7 +79,7 @@ const handleMessage = () => connection.on('data', data => {
           btn.addEventListener('click', () => selectCell(i))
           board.appendChild(btn)
         }
-        alert(message ? 'You go first': 'You go second')
+        alert(message ? 'You go first' : 'You go second')
       }
       break
     case 'selection':
@@ -71,12 +90,12 @@ const handleMessage = () => connection.on('data', data => {
       if (WIN_CASES.some(chance => chance.every(cell => selections.opponent.includes(cell)))) {
         log('You Lost!', 'fail')
         alert('You Lost!')
-        location.href = '/'
+        location.href = '/tic-tac-toe'
       }
       else if (Object.values(selections).flat().length === 9) {
         log('Draw Match!', 'message')
         alert('Draw Match!')
-        location.href = '/'
+        location.href = '/tic-tac-toe'
       }
       break
     default:
@@ -97,12 +116,12 @@ const selectCell = id => {
   if (WIN_CASES.some(chance => chance.every(cell => selections.player.includes(cell)))) {
     log('You Won!!!', 'success')
     alert('You Won!!!')
-    location.href = '/'
+    location.href = '/tic-tac-toe'
   }
   else if (Object.values(selections).flat().length === 9) {
     log('Draw Match!', 'message')
     alert('Draw Match!')
-    location.href = '/'
+    location.href = '/tic-tac-toe'
   }
 }
 
