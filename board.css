@@ -1,0 +1,36 @@
+#board {
+  width: 100vw;
+  height: 100vw;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cell {
+  min-width: 32%;
+  border: 1px solid var(--dark);
+  cursor: pointer;
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--light);
+}
+
+@media screen and (orientation: landscape) {
+  #board {
+    width: 99vh;
+    height: 99vh;
+  }
+
+  .cell {
+    min-height: 32%;
+  }
+
+  #modal {
+    width: 50vw;
+    height: 60vh;
+    top: 20vh;
+    left: 25vw;
+  }
+}

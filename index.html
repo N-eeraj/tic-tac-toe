@@ -1,32 +1,26 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
-        <link rel="shortcut icon" href="images/logo.png">
-    </head>
-    <body>
-        <div id="board">
-            <div class="cell" id="0" onclick="select(this.id)"></div>
-            <div class="cell" id="1" onclick="select(this.id)"></div>
-            <div class="cell" id="2" onclick="select(this.id)"></div>
-            <div class="cell" id="3" onclick="select(this.id)"></div>
-            <div class="cell" id="4" onclick="select(this.id)"></div>
-            <div class="cell" id="5" onclick="select(this.id)"></div>
-            <div class="cell" id="6" onclick="select(this.id)"></div>
-            <div class="cell" id="7" onclick="select(this.id)"></div>
-            <div class="cell" id="8" onclick="select(this.id)"></div>
-        </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./common.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
 
-        <div id="overlay"></div>
-        <div id="modal">
-            <h1 id="winner"></h1>
-            <button onclick="play()">Play Again</button>
-        </div>
-        <script src="script.js"></script>
-    </body>
+    <h1 class="title">
+        Tic Tac Toe
+    </h1>
+
+    <div class="link-containers">
+        <a href="single-player" class="link-btn">
+            Single Player
+        </a>
+
+        <a href="multi-player" class="link-btn">
+            Multi Player
+        </a>
+    </div>
+</body>
 </html>
