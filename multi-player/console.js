@@ -10,7 +10,7 @@ const log = (msg, type) => {
         case 'message':
             bgClr = '#FA0'
             break
-        case 'leave':
+        case 'fail':
             bgClr = '#A00'
             break
         default:

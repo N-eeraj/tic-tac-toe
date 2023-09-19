@@ -2,7 +2,6 @@ import log from './console.js'
 
 const WIN_CASES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 
-const playBtn = document.getElementById('play')
 const qrCode = document.getElementById('qrCode')
 
 let peer, connection
@@ -14,7 +13,6 @@ const selections = {
 }
 
 const generateQR = id => {
-  playBtn.classList.add('hidden')
   qrCode.classList.remove('hidden')
   const url = `${location.href}?matchId=${id}`
   const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?data=${url}`
@@ -29,7 +27,7 @@ const handleMessage = () => connection.on('data', data => {
   switch (type) {
     case 'connection':
       log(`Connected to ${message}`, 'success')
-      if (message === 'client') {
+      if (message === 'guest') {
         sendMessage({
           type: 'connection',
           message: 'host',
@@ -38,7 +36,7 @@ const handleMessage = () => connection.on('data', data => {
       }
       else {
         const toss = Math.random() > 0.5
-        log(`${toss ? 'client' : 'host'} goes first`, 'info')
+        log(`${toss ? 'guest' : 'host'} goes first`, 'info')
         sendMessage({
           type: 'toss',
           message: toss,
@@ -48,7 +46,7 @@ const handleMessage = () => connection.on('data', data => {
     case 'toss':
       if (player1 === null) {
         turn = message
-        log(`Is player 1: ${message}`, 'message')
+        log(`Is player 1: ${message}`, message ? 'success' : 'fail')
         player1 = message
         sendMessage({
           type: 'toss',
@@ -69,7 +67,17 @@ const handleMessage = () => connection.on('data', data => {
       selections.opponent.push(message)
       turn = true
       log(`Opponent selected cell: ${message}`, 'message')
-      document.getElementById(message).style.backgroundImage = "url(../images/o.png)"
+      document.getElementById(message).style.backgroundImage = `url(../images/${player1 ? 'o' : 'x'}.png)`
+      if (WIN_CASES.some(chance => chance.every(cell => selections.opponent.includes(cell)))) {
+        log('You Lost!', 'fail')
+        alert('You Lost!')
+        location.href = '/'
+      }
+      else if (Object.values(selections).flat().length === 9) {
+        log('Draw Match!', 'message')
+        alert('Draw Match!')
+        location.href = '/'
+      }
       break
     default:
       console.error(`Invalid data type ${type}`)
@@ -80,12 +88,22 @@ const selectCell = id => {
   if (!turn || Object.values(selections).flat().some(cell => cell === id)) return
   selections.player.push(id)
   log(`You selected cell: ${id}`, 'info')
-  document.getElementById(id).style.backgroundImage = "url(../images/x.png)"
+  document.getElementById(id).style.backgroundImage = `url(../images/${player1 ? 'x' : 'o'}.png)`
   turn = false
   sendMessage({
     type: 'selection',
     message: id,
   })
+  if (WIN_CASES.some(chance => chance.every(cell => selections.player.includes(cell)))) {
+    log('You Won!!!', 'success')
+    alert('You Won!!!')
+    location.href = '/'
+  }
+  else if (Object.values(selections).flat().length === 9) {
+    log('Draw Match!', 'message')
+    alert('Draw Match!')
+    location.href = '/'
+  }
 }
 
 window.addEventListener('load', async () => {
@@ -97,22 +115,20 @@ window.addEventListener('load', async () => {
       connection = peer.connect(matchId)
       connection.on('open', () => {
         handleMessage(connection)
-        log('Client initiated', 'info')
+        log('Guest initiated', 'info')
         sendMessage({
           type: 'connection',
-          message: 'client',
+          message: 'guest',
         })
       })
     }
     else {
-      playBtn.classList.remove('hidden')
-      playBtn.addEventListener('click', () => generateQR(id))
+      generateQR(id)
       peer.on('connection', conn => {
         connection = conn
         log('Host initiated', 'info')
         handleMessage()
       })
-
     }
   })
 })
